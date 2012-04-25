@@ -8,6 +8,7 @@
 			<label index="label_fieldset">Contact</label>
 			<label index="name">Name:</label>
 			<label index="email">E-Mail:</label>
+			<label index="telephone">Telephone:</label>
 			<label index="message">Your Message:</label>
 			<label index="captcha">Captcha - SPAM Protection</label>
 			<label index="submit">Send</label>
@@ -24,6 +25,29 @@
 			<label index="error_email_required">Please enter your email address!</label>
 			<label index="error_email_email">Please enter a valid email address!</label>
 			<label index="error_message_required">Please enter a message!</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="label_fieldset">Kontakt</label>
+			<label index="name">Name:</label>
+			<label index="email">E-Mail:</label>
+			<label index="telephone">Telefon:</label>
+			<label index="message">Ihre Nachricht:</label>
+			<label index="captcha">Captcha - SPAM Protection</label>
+			<label index="submit">Senden</label>
+			<label index="greetings">Liebe</label>
+			<label index="email_user_subject">Your contact request</label>
+			<label index="email_user_text">We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.</label>
+			<label index="email_user_footer">---------------------------------- This message was created automatically. --------------------------------</label>
+
+			<label index="email_admin_subject">Contact request</label>
+			<label index="email_admin_text">A user filled out the contact form on www.example.org.</label>
+			<label index="email_admin_footer">---------------------------------- This message was created automatically. --------------------------------</label>
+
+			<label index="error_name_required">Bitte, geben Sie Ihren Namen an!</label>
+			<label index="error_telephone_required">Bitte, geben Sie Ihr Telefon an!</label>
+			<label index="error_email_required">Bitte, geben Sie Ihre Email Adresse an!</label>
+			<label index="error_email_email">Bitte, geben Sie Ihre korrekte Email Adresse an!</label>
+			<label index="error_message_required">Bitte, geben Sie Ihre Nachricht an!!</label>
 		</languageKey>
 	</data>
 </T3locallang>

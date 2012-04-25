@@ -9,7 +9,7 @@
 plugin.Tx_Formhandler.settings.predef.contact {
 
 	# This is the title of the predefined form shown in the dropdown box in the plugin options.
-	name = Basic Contact Form
+	name = Basic Contact Form	
 	
 	# All form fields are prefixed with this values (e.g. disable-submit[name])
 	formValuesPrefix = contact
@@ -57,7 +57,7 @@ plugin.Tx_Formhandler.settings.predef.contact {
 			notOk = <img src="{$formhandler.forms.contact.rootPath}/skin/images/notok.png" />
 			ok = <img src="{$formhandler.forms.contact.rootPath}/skin/images/ok.png" />
 			initial = ###is_error_###fieldname######
-			loading = <img src="typo3conf/ext/formhandler/Resources/Images/ajax-loader.gif" />
+			loading = <img src="{$formhandler.forms.contact.rootPath}/skin/images/ajax-loader.gif" />
 			
 			#Let Formhandler disable the submit button if there are still errors in the form
 			autoDisableSubmitButton = 1

@@ -9,7 +9,7 @@
 formhandler.forms.contact {
 
 	# cat=Formhandler - Basic Contact Form/basic/10; type=string; label=Root path: Path where the example was saved to.
-	rootPath = fileadmin/default/formhandler/basic-contact
+	rootPath = fileadmin/templates/formhandler/basic-contact
 	
 	email {
 		admin {
