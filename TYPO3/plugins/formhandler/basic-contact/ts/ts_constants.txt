@@ -1,0 +1,26 @@
+/**
+* Formhandler Basic Contact Form
+*
+* Simple contact form with ajax validation.
+* <INCLUDE_TYPOSCRIPT: source="FILE: fileadmin/templates/formhandler/basic-contact/ts/ts_setup.txt">
+* <INCLUDE_TYPOSCRIPT: source="FILE: fileadmin/templates/formhandler/basic-contact/ts/ts_constants.txt">
+*/
+
+formhandler.forms.contact {
+
+	# cat=Formhandler - Basic Contact Form/basic/10; type=string; label=Root path: Path where the example was saved to.
+	rootPath = fileadmin/default/formhandler/basic-contact
+	
+	email {
+		admin {
+			# cat=Formhandler - Basic Contact Form/basic/20; type=string; label=Admin email sender: Email address to use as sender address for the admin email.
+			sender_email = 
+
+			# cat=Formhandler - Basic Contact Form/basic/20; type=string; label=Admin email recipient: Email address of an admin to receive the contact request.
+			to_email = 
+		}
+	}
+
+	# cat=Formhandler - Basic Contact Form/basic/40; type=string; label=Redirect Page: Page ID to redirect after successful form submission.
+	redirectPage = 
+}

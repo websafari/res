@@ -1,0 +1,218 @@
+.yform {
+    background:#EBEEEE;
+	padding-top:13px;
+	border-radius:4px;
+}
+
+.yform h2 { margin:0 0 10px 4px; font-weight:bold; font-size:14px; letter-spacing:normal; line-height:21px; padding:0; border:none;}
+
+.yform UL, LI { margin:0; padding:0; }
+
+.yform fieldset {
+    border: 1px solid #E6E6E6;
+	border-color:#C4C4C4 #E9E9E9 #E9E9E9 #C4C4C4;
+    background:#fff;
+	margin:-3px 0 0;
+    border-color: #E6E6E6 #CCCCCC #CCCCCC #E6E6E6;
+}
+
+.yform fieldset:first-of-type {-moz-border-radius: 3px 3px 0px 0px;}
+.yform fieldset:last-child {-moz-border-radius: 0px 0px 3px 3px;}
+
+.yform fieldset P { font-size:11px; color:#333; margin:0; padding:0; line-height:15px;}
+.columnar fieldset P { }
+.columnar div.type-text label + textarea + p,
+.columnar div.type-text label + input + p { padding:0 0 0 30%;}
+
+
+.yform legend {
+  font-size:14px; 
+  font-weight:normal; 
+  color:#232526;
+}
+
+.yform label {
+  color:#232526;
+  font-size:14px;
+  padding-top:6px;
+  padding-bottom:2px;
+}
+
+.yform input,
+.yform textarea,
+.yform select, 
+.yform optgroup {
+  font-family:Arial, Helvetica, sans-serif; /* proportional fonts for all form elements */
+  font-size:12px;
+  color:#232526;
+  line-height:15px;
+  
+}
+
+.yform div.type-button INPUT.form-invalid:focus, .yform div.type-button INPUT.form-invalid:hover, .yform div.type-button  INPUT.form-invalid { color:red; }
+.yform div.type-button INPUT.form-valid:focus, .yform div.type-button INPUT.form-valid:hover, .yform div.type-button  INPUT.form-valid { color:green; }
+
+.columnar div.type-text textarea { width:97.8%;}
+.columnar div.type-text label + textarea { width:67.8%;}
+
+
+.yform .type-text input,
+.yform .type-text textarea,
+.yform .type-select select {
+  border:1px solid #E6E6E6;
+  border-color:#C4C4C4 #E9E9E9 #E9E9E9 #C4C4C4;
+  -moz-border-radius:3px 3px 3px 3px;
+  padding:7px 3px;
+  x-moz-box-shadow: 0 1px 2px rgba(172, 188, 209, 0.35);
+}
+
+.yform .type-text input.file { border-color:#F0F0F0;}
+
+
+/* :hover and :focus status on form fields | Effekt zur Hervorhebung von Formularfeldern bei :hover oder :focus */
+.yform div select:focus,
+.yform div.type-text input:focus,
+.yform div select:focus,
+.yform div textarea:focus,
+.yform div.type-text input:hover,
+.yform div select:hover,
+.yform div textarea:hover,
+.yform div.type-text input:active,
+.yform div select:active,
+.yform div textarea:active {
+  border:1px #a66 solid;
+  background-color: #fff; 
+}
+
+/* Styling of custom styled buttons | Gestaltung von individuell gestalteten Buttons */
+.yform .type-button input {
+  border-top:1px #ddd solid;
+  border-left:1px #ddd solid;
+  border-right:1px #444 solid;
+  border-bottom:1px #444 solid;
+  color:#232526;
+  background:#454545 url(../images/button_gray.png) top left repeat-x;
+}
+
+.yform .type-button input[type=reset],
+.yform .type-button input[type=submit] { color:#555; background:#fff url(../images/button-grey.png) top left repeat-x; -moz-border-radius: 3px 3px 3px 3px; display: block;
+    float: right;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 100%;
+    min-width: 99px;
+    padding: 3px 12px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px rgba(255, 255, 255, 0.75);
+    text-transform: uppercase;
+	border-color: #D4D4D4 #B4B4B4 #B4B4B4 #D4D4D4;
+    border-right: 1px solid #B4B4B4;
+    border-style: solid;
+    border-width: 1px;
+	}
+
+/* optional button styling for IE6 using classes */
+.yform .type-button input.reset { color:#555; background:#fff url(../images/button-grey.png) top left repeat-x;}
+.yform .type-button input.submit { color:#555; background:#fff url(../images/button-grey.png) top left repeat-x; }
+
+/* :hover and :focus status on buttons | Effekt zur Hervorhebung von Schaltern bei :hover oder :focus */
+.yform div.type-button input:focus,
+.yform div.type-button input:hover,
+.yform div.type-button input:active {
+  border-color:#B4B4B4; background-color:#F7F7F7; color:#333;
+}
+
+.yform .message { color:#666; }
+
+/* Highlight mandatory fields | Pflichtfeldkennzeichnung hervorheben */
+.yform sup { color:#800; font-weight:bold; }
+
+.yform .type-select select optgroup {
+  font-style:normal;
+  font-weight:bold;
+}
+
+.yform div.error {
+  border:1px #a00 dashed;
+  background:#faf4f4;
+}
+
+.yform LABEL.error { color:#a00; }
+
+.yform div.error label { color:#232526; font-weight:bold; }
+.yform div.error .message { color:#800; }
+
+
+/* CSS3 spicing for mozilla and webkit */
+
+button.classy,a.button.classy{height:34px;padding:0;position:relative;top:1px;margin-left:10px;font-family:helvetica,arial,freesans,clean,sans-serif;font-weight:bold;font-size:12px;color:#333;text-shadow:1px 1px 0 #fff;white-space:nowrap;border:none;overflow:visible;background:#ddd;filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ffffff',endColorstr='#e1e1e1');background:-webkit-gradient(linear,0% 0,0% 100%,from(#fff),to(#e1e1e1));background:-moz-linear-gradient(-90deg,#fff,#e1e1e1);border-bottom:1px solid #ebebeb;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-box-shadow:0 1px 4px rgba(0,0,0,0.3);-moz-box-shadow:0 1px 4px rgba(0,0,0,0.3);box-shadow:0 1px 4px rgba(0,0,0,0.3);cursor:pointer;-webkit-font-smoothing:subpixel-antialiased!important;}
+a.button.classy{display:inline-block;}
+button.classy:hover,a.button.classy:hover{color:#fff;text-shadow:-1px -1px 0 rgba(0,0,0,0.3);border-bottom-color:#0770a0;background:#0770a0;filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#0ca6dd',endColorstr='#0770a0');background:-webkit-gradient(linear,0% 0,0% 100%,from(#0ca6dd),to(#0770a0));background:-moz-linear-gradient(-90deg,#0ca6dd,#0770a0);}
+button.classy.mousedown,a.button.classy.mousedown{color:#fff;text-shadow:-1px -1px 0 rgba(0,0,0,0.3);background:#0ca6dd;filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#0ca6dd',endColorstr='#0770a0');background:-webkit-gradient(linear,0% 100%,0% 0,from(#0ca6dd),to(#0770a0));background:-moz-linear-gradient(90deg,#0ca6dd,#0770a0);}
+button.classy.mousedown span,a.button.classy.mousedown span{background-position:0 -120px;}
+button.classy::-moz-focus-inner{margin:-1px -3px;}
+
+/*missing: glowing*/
+
+
+
+.help { font:italic 12px Georgia,Times,serif; color:#A5B1B8;}
+
+/* RF */
+.columnar div.error .message { margin-bottom:0; }
+.yform div.error  { margin: 0 0 5px; }
+
+.yform .fileupload-info { list-style-type:none; margin-left:30%; padding:0; font-size:12px; line-height:18px; }
+.yform .fileupload-info .label { font-weight:bold; }
+.yform .fileupload-info .info { margin-right: 10px; }
+
+.yform .fileupload-list { list-style-type:none; margin:0; padding:0; font-size:14px; line-height:20px; }
+
+.yform .fileupload-list .formhandler_removelink { vertical-align: middle; padding: 2px 0 0 4px; }
+
+.yform .uploadedfiles-label { display:block; font-weight:bold; font-size:14px; margin-bottom: 4px; }
+.yform .uploadedfiles { margin-left: 30%; }
+
+.yform .type-file input[type=submit] { 
+		color:#555; 
+		background:#fff url(../images/button-grey.png) top left repeat-x; 
+		-moz-border-radius: 3px 3px 3px 3px; 
+		display: block;
+		margin-left:15px; 
+    font-size: 11px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 100%;
+    min-width: 99px;
+    padding: 3px 12px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px rgba(255, 255, 255, 0.75);
+    text-transform: uppercase;
+		border-color: #D4D4D4 #B4B4B4 #B4B4B4 #D4D4D4;
+    border-right: 1px solid #B4B4B4;
+    border-style: solid;
+    border-width: 1px;
+	}
+
+/* optional button styling for IE6 using classes */
+.yform .type-file input.submit { color:#555; background:#fff url(../images/button-grey.png) top left repeat-x; }
+
+/* :hover and :focus status on buttons | Effekt zur Hervorhebung von Schaltern bei :hover oder :focus */
+.yform div.type-file input:focus,
+.yform div.type-file input:hover,
+.yform div.type-file input:active {
+  border-color:#B4B4B4; background-color:#F7F7F7; color:#333;
+}
+
+.yform UL.error-list { list-style-type:none; margin:0 0 10px 0;padding:0; }
+
+.yform UL.error-list div.error {
+  border:0;
+  background:transparent;
+}
+
+.yform UL.error-list div.error .message { margin:0; }
+

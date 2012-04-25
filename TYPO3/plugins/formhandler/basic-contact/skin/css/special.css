@@ -1,0 +1,33 @@
+.yform div.type-file input {cursor:pointer; overflow:visible;  /* Fixes IE7 auto-padding bug */ width:auto; padding:5px 1em;}
+
+.yform .tx-srfreecap-pi2-cant-read {color:#778180;}
+
+.yform  div.type-check > LABEL { }
+
+
+.type-text .captcha input { width: 51% !important; }
+.type-text .captcha img { float:left;  padding-right: 5px !important; }
+
+.type-text .recaptcha { float:left; }
+
+img.tx-srfreecap-pi2-image { margin:0; }
+.type-text .sr_freecap img { float:left; }
+.type-text .sr_freecap .sr_freecap-input {float:left; margin:0.5em 0 0.5em 30%; width: 67.8%; padding:3px 0.5em 3px 0;}
+.type-text .sr_freecap .sr_freecap-input input { width: 100% !important;  }
+
+.type-text .wt_captcha img { float:left; }
+.type-text .wt_captcha input { float:left; width: 42% !important; margin-left: 8px; }
+
+.type-text .mathguard pre { width:65px; height:21px; background: none; border-left: 0; }
+.type-text .mathguard input { width: 538px !important; margin-left: 8px; }
+
+.yform .type-text.ajax input, .yform .type-text.ajax textarea { width:65%; }
+.yform .type-text.ajax span, .yform .type-text.ajax span { margin-left:8px; }
+
+.yform IMG {margin-top: 8px;}
+
+.yform LABEL.error {color:#880000; background:none; border:0 none transparent; padding:6px 0 2px 0; margin:0;}
+
+.yform .formhandler-ajax-validation-result SPAN.error, .yform .formhandler-ajax-validation-result SPAN.success{ display:inline; border:0; background:0; margin:0; padding:0; }
+
+.loading_ajax-submit { display:none; text-align:right; width: 80%; margin-top:-3px; float:left; }
