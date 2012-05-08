@@ -1,0 +1,11 @@
+plugin.tx_googlemapinfobox_pi1 = USER
+plugin.tx_googlemapinfobox_pi1 {
+    zoom = 6
+    width = 400
+    height = 500
+    templateFile = EXT:googlemap_infobox/res/template.html
+    pages =
+    image =
+    infoBoxImage =
+	selectByCategory = 1
+}

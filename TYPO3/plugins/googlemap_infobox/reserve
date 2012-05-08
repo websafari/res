@@ -1,0 +1,494 @@
+<?php
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2012 Miladin Bojic <miladin.beg@gmail.com>
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+/**
+ * [CLASS/FUNCTION INDEX of SCRIPT]
+ *
+ * Hint: use extdeveval to insert/update function index above.
+ */
+
+require_once(PATH_tslib.'class.tslib_pibase.php');
+
+
+/**
+ * Plugin 'Googlemaps with infobox' for the 'googlemap_infobox' extension.
+ *
+ * @author	Miladin Bojic <miladin.beg@gmail.com>
+ * @package	TYPO3
+ * @subpackage	tx_googlemapinfobox
+ */
+class tx_googlemapinfobox_pi1 extends tslib_pibase {
+    var $prefixId      = 'tx_googlemapinfobox_pi1';		// Same as class name
+    var $scriptRelPath = 'pi1/class.tx_googlemapinfobox_pi1.php';	// Path to this script relative to the extension dir.
+    var $extKey        = 'googlemap_infobox';	// The extension key.
+    var $pi_checkCHash = true;
+
+    /**
+     * The main method of the PlugIn
+     *
+     * @param	string		$content: The PlugIn content
+     * @param	array		$conf: The PlugIn configuration
+     * @return	The content that is displayed on the website
+     */
+    function main($content, $conf) {
+        $this->init();
+        $this->conf = $conf;
+        $this->pi_setPiVarDefaults();
+        $this->pi_loadLL();
+
+        $GLOBALS["TSFE"]->additionalHeaderData[] = '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" ></script>';
+        $GLOBALS["TSFE"]->additionalHeaderData[] = '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
+        $GLOBALS["TSFE"]->additionalHeaderData[] = '<script type="text/javascript" src="typo3conf/ext/googlemap_infobox/res/google_map.js"></script>';
+        $GLOBALS["TSFE"]->additionalHeaderData[] = '<script type="text/javascript" src="typo3conf/ext/googlemap_infobox/res/infobox_packed.js"></script>';
+        $GLOBALS["TSFE"]->additionalHeaderData[] = '<style type="text/css>
+                                                        #googlebox select {
+                                                            position: absolute;
+                                                            top: 5px;
+                                                            z-index: 1;
+                                                            right: 117px;
+
+                                                        }
+                                                        #googlebox {
+                                                            position: relative;
+
+                                                        }
+                                                        #googlebox, #googlebox #map {
+                                                            width:'.$this->lConf['width'].'px;
+                                                            height:'.$this->lConf['height'].'px;
+                                                        }
+                                                     </style>';
+
+        // Initialise the return variable
+        $content = '';
+        $sForm = '';
+        $sFormResult = '';
+
+        require_once (t3lib_extMgm::extPath('xajax') . 'class.tx_xajax.php');
+        // Make the instance
+        $this->xajax = t3lib_div::makeInstance('tx_xajax');
+        // nothing to set, we send to the same URI
+        # $this->xajax->setRequestURI('xxx');
+        // Decode form vars from utf8 ???
+        $this->xajax->decodeUTF8InputOn();
+        // Encode of the response to utf-8 ???
+        $this->xajax->setCharEncoding('utf-8');
+        // To prevent conflicts, prepend the extension prefix
+        $this->xajax->setWrapperPrefix($this->prefixId);
+        // Do you wnat messages in the status bar?
+        $this->xajax->statusMessagesOn();
+        // Turn only on during testing
+        #$this->xajax->debugOn();
+        // Register the names of the PHP functions you want to be able to call through xajax
+        // $xajax->registerFunction(array('functionNameInJavascript', &$object, 'methodName'));
+        $this->xajax->registerFunction(array('getCode', &$this, 'getCode'));
+        // If this is an xajax request, call our registered function, send output and exit
+        $this->xajax->processRequests();
+        // Else create javascript and add it to the header output
+        $GLOBALS['TSFE']->additionalHeaderData[$this->prefixId] = $this->xajax->getJavascript(t3lib_extMgm::siteRelPath('xajax'));
+        // The form goes here
+
+        // The result box goes here
+        if (!t3lib_div::_GP('xajax')) {
+            $content .= '<div id="formResult">';
+            $content .= $this->getAllInfos();
+            $content .= '</div>';
+        }
+
+        return $this->pi_wrapInBaseClass($content);
+    }
+
+    function getCode($data)	{
+        $content = '';
+        $content .= $this->getAllInfos($data);
+        // Once having prepared the content we still need to send it to the browser ...
+        // Instantiate the tx_xajax_response object
+        $objResponse = new tx_xajax_response();
+        // Add the content to or result box
+        $objResponse->addAssign('formResult', 'innerHTML', $content);
+        //return the XML response
+        return $objResponse->getXML();
+    }
+
+    function getAllInfos($data=0){
+        $js = '$(document).ready(function(){';
+
+
+        ##### get title from chosen id of country
+        if(intval($data)) {
+            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                'title', //$select_fields,
+                'tt_address_group', //$from_table,
+                'uid='.(intval($data)),//$where_clause,
+                '', //$groupBy = '',
+                '', //$orderBy = '',
+                '' //$limit = ''
+            );
+
+            $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+            $js .= 'initialize(\''.$row['title'].'\');';
+        } else {
+            $js .= 'initialize(\'\');';
+        }
+
+
+
+
+        ##### get all markers for selected country
+        if(intval($data)) {
+            $ifCountry = ' and tt_address_group.uid='.(intval($data));
+        } else {
+            $ifCountry = '';
+        }
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query	(
+            'tt_address.address, tt_address.uid, tt_address_group.uid, tt_address.phone', //$select,
+            'tt_address', //$local_table,
+            'tt_address_group_mm', //$mm_table,
+            'tt_address_group', //$foreign_table,
+            ' and tt_address.pid='.$this->lConf['pages'].$ifCountry,//$whereClause = '',
+            '',//$groupBy = '',
+            '',//$orderBy = '',
+            ''//$limit = ''
+        );
+        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+            $mapMarkers[$row['uid']] = array(
+                'uid' => $row['uid'],
+                'address' => $row['address'],
+                'image' => 'uploads/pics/'.$this->lConf['image'],
+                'background' => 'uploads/pics/'.$this->lConf['infoBoxImage'],
+                'content' => '<div class="infoBox"><p class="map-date">'.$row['phone'].'</p></div>'
+                /* 'latitude' => $row['latitude'],
+                    'longitude' => $row['longitude']  */
+            );
+        }
+
+
+
+        ##### get all country that are used
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query	(
+            'tt_address_group.title, tt_address_group.uid', //$select,
+            'tt_address', //$local_table,
+            'tt_address_group_mm', //$mm_table,
+            'tt_address_group', //$foreign_table,
+            ' and tt_address.pid='.$this->lConf['pages'],//$whereClause = '',
+            '',//$groupBy = '',
+            '',//$orderBy = '',
+            ''//$limit = ''
+        );
+
+        $selectCountry = '<select  onChange="' . $this->prefixId . 'getCode(this.value);">
+								<option>Alle Länder</option>';
+        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+            if(intval($data) == $row['uid']) {
+                $selectCountry .= '<option selected="selected" value='.$row['uid'].'>'.$row['title'].'</option>';
+            } else {
+                $selectCountry .= '<option value='.$row['uid'].'>'.$row['title'].'</option>';
+            }
+        }
+        $selectCountry .= '</select>';
+
+
+
+        $js .= 'markerObject = eval(('.json_encode($mapMarkers).'));';
+        $js .= 'filterMap();});';
+
+        //$handle = fopen('typo3temp/gmap.js', 'w');
+        //fwrite($handle, $js);
+
+        $myFile = "typo3temp/gmap.js";
+        $fh = fopen($myFile, 'w') or die("can't open file");
+        fwrite($fh, $js);
+        fclose($fh);
+        header("Cache-Control: no-cache, must-revalidate");
+
+        return '<div id="googlebox">'.$selectCountry.'<div id="map"></div></div><script type="text/javascript" src="typo3temp/gmap.js?v='.time().'" ></script>';
+    }
+
+    function init(){
+        $this->pi_initPIflexForm(); // Init and get the flexform data of the plugin
+        $this->lConf = array(); // Setup our storage array...
+        // Assign the flexform data to a local variable for easier access
+        $piFlexForm = $this->cObj->data['pi_flexform'];
+        // Traverse the entire array based on the language...
+        // and assign each configuration option to $this->lConf array...
+        foreach ( $piFlexForm['data'] as $sheet => $data ) {
+            foreach ( $data as $lang => $value ) {
+                foreach ( $value as $key => $val ) {
+                    $this->lConf[$key] = $this->pi_getFFvalue($piFlexForm, $key, $sheet);
+                }
+            }
+        }
+    }
+}
+
+
+
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/googlemap_infobox/pi1/class.tx_googlemapinfobox_pi1.php'])	{
+    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/googlemap_infobox/pi1/class.tx_googlemapinfobox_pi1.php']);
+}
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+/***************************************************************
+*  Copyright notice
+*
+*  (c) 2007 Peter Klein (pmk@io.dk)
+*  (c) 2007 Stefan Galinski (stefan.galinski@frm2.tum.de)
+*  All rights reserved
+*
+*  This script is part of the TYPO3 project. The TYPO3 project is
+*  free software; you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation; either version 2 of the License, or
+*  (at your option) any later version.
+*
+*  The GNU General Public License can be found at
+*  http://www.gnu.org/copyleft/gpl.html.
+*
+*  This script is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+*  GNU General Public License for more details.
+*
+*  This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
+
+/**
+ * Google Maps Positioner for longtitude / latitude
+ *
+ * @author Hannes Maier <h.maier@yama.at>
+ */
+class user_googlemapsPositioner {
+
+
+	function user_googlemapsPositioner($PA=null, $fobj=null) {
+		if (!$PA) return;
+		if (!$fobj) return;
+
+		$this->tceforms = &$PA['pObj'];
+		$PArow = $PA['row'];
+		$PAconfig = $PA['fieldConf']['config'];
+		$mapId = 1;
+
+		if($PArow['tx_googlemapinfobox_latitude'] == '') $PArow['tx_googlemapinfobox_latitude'] = '47.80949';
+		if($PArow['tx_googlemapinfobox_longitude'] == '') $PArow['tx_googlemapinfobox_longitude'] = '13.05501';
+
+		if (intval($PArow['uid']) == 0) return '';
+
+		// Add custom JavaScript functions
+		$fobj->additionalJS_pre['copyDAMfield']='
+			var g'. $mapId .'map;
+			var markers'. $mapId .'Array = [];
+
+			function updatePosition(map, marker) {
+
+				latLng = marker.getPosition();
+
+				tmpLongHr = \'data[tt_address][' . $PArow['uid'] . '][tx_googlemapinfobox_longitude]_hr\';
+				tmpLatHr = \'data[tt_address][' . $PArow['uid'] . '][tx_googlemapinfobox_latitude]_hr\';
+				tmpLong = \'data[tt_address][' . $PArow['uid'] . '][tx_googlemapinfobox_longitude]\';
+				tmpLat = \'data[tt_address][' . $PArow['uid'] . '][tx_googlemapinfobox_latitude]\';
+
+				//tmpZip = \'data[tt_address][' . $PArow['uid'] . '][tx_googlemapinfobox_zip]\';
+
+				//console.log(document.' . $this->tceforms->formName . '[tmpZip].value);
+
+				document.' . $this->tceforms->formName . '[tmpLongHr].value = latLng.lng();
+				document.' . $this->tceforms->formName . '[tmpLatHr].value = latLng.lat();
+				document.' . $this->tceforms->formName . '[tmpLong].value = latLng.lng();
+				document.' . $this->tceforms->formName . '[tmpLat].value = latLng.lat();
+			}
+
+			function codeAddress(map) {
+				tmpZip = \'data[tt_address][' . $PArow['uid'] . '][tx_googlemapinfobox_zip]\';
+				tmpCity = \'data[tt_address][' . $PArow['uid'] . '][tx_googlemapinfobox_city]\';
+				tmpAddress = \'data[tt_address][' . $PArow['uid'] . '][tx_googlemapinfobox_address]\';
+				tmpCountry = \'data[tt_address][' . $PArow['uid'] . '][tx_googlemapinfobox_country]\';
+
+				zip = document.' . $this->tceforms->formName . '[tmpZip].value;
+				city = document.' . $this->tceforms->formName . '[tmpCity].value;
+				street = document.' . $this->tceforms->formName . '[tmpAddress].value;
+				country = document.' . $this->tceforms->formName . '[tmpCountry].value;
+
+				address = street + \', \' + zip + \' \' + city + \', \' + country;
+
+				if (geocoder) {
+					geocoder.geocode( { \'address\': address}, function(results, status) {
+						if (status == google.maps.GeocoderStatus.OK) {
+						var marker = new google.maps.Marker({
+							map: map,
+							position: results[0].geometry.location,
+							draggable: true
+						});
+						}
+					});
+				}
+			}
+
+			function placeMarker(location, map) {
+				 // var clickedLocation = new google.maps.LatLng(location);
+				  var marker = new google.maps.Marker({
+				      position: location,
+				      map: map,
+					  draggable: true
+				  });
+
+				  map.setCenter(location);
+
+				google.maps.event.addListener(marker, \'dragend\', function() {
+				  updatePosition (map, marker);
+				});
+
+			}
+
+			function initialize'. $mapId .'Map() {
+
+				tmpAddr = \'data[tt_address][' . $PArow['uid'] . '][address]\';
+                document.' . $this->tceforms->formName . '[tmpAddr].addEventListener(\'blur\',function () {
+                    this.style.backgroundColor = \'#cc0000\'
+                },false);
+
+				geocoder = new google.maps.Geocoder();
+				var point = new google.maps.LatLng('.$PArow['tx_googlemapinfobox_latitude'] .', '. $PArow['tx_googlemapinfobox_longitude'].')
+				var myOptions = {
+			      zoom: 6,
+			      center: point,
+			      mapTypeId: google.maps.MapTypeId.ROADMAP,
+			      mapTypeControl: true,
+			      mapTypeControlOptions: {
+			          style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+			          position: google.maps.ControlPosition.TOP_LEFT
+			      },
+			      navigationControl: true,
+			      navigationControlOptions: {
+			          style: google.maps.NavigationControlStyle.DEFAULT
+			      }
+			    }
+
+			    var map = new google.maps.Map(document.getElementById("map'. $mapId .'canvas"),myOptions);
+				g'. $mapId .'map = map;
+				placeMarker(point, map);
+			}
+';
+
+		// Collect DAM info
+		$out = array();
+  	$res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query('tx_dam.description, tx_dam.alt_text, ' .
+			'tx_dam.caption, tx_dam.abstract, tx_dam.title',
+			'tx_dam', 'tx_dam_mm_ref', 'tt_content',
+			'AND tx_dam_mm_ref.tablenames="tt_content" AND tx_dam_mm_ref.ident="tx_damttcontent_files" ' .
+			'AND tx_dam_mm_ref.uid_foreign="' . $PArow['uid'] . '"', '', 'tx_dam_mm_ref.sorting_foreign ASC');
+		$tarows = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
+		if($tarows) {
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+				$out['description'][] = str_replace(array(chr(10),chr(13)), ' ', $row['description'].' ');
+				$out['alt_text'][] = str_replace(array(chr(10),chr(13)), ' ', $row['alt_text'].' ');
+				$out['caption'][] = str_replace(array(chr(10),chr(13)), ' ', $row['caption'].' ');
+				$out['abstract'][] = str_replace(array(chr(10),chr(13)), ' ', $row['abstract'].' ');
+				$out['title'][] = str_replace(array(chr(10),chr(13)), ' ', $row['title'].' ');
+			}
+    }
+
+		$disabled = '';
+		if ($this->tceforms->renderReadonly || $PAconfig['readOnly'])  {
+			$disabled = ' disabled="disabled" readonly="readonly"';
+		}
+
+
+		$out = array();
+		$out[] = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&amp;language=en"></script>';
+		$out[] = '<div id="map'. $mapId .'canvas"></div>';
+		$out[] = '
+					<style type="text/css">
+						/*<![CDATA[*/
+					<!--
+						#map'. $mapId .'canvas {
+							width:600px;
+							height:400px;
+							color:#000;
+							margin-bottom:15px;
+						}
+					// -->
+						/*]]>*/
+					</style>
+				';
+
+		$out[] = '
+				<script type="text/javascript">
+					/*<![CDATA[*/
+						<!--
+							initialize'. $mapId .'Map();
+						// -->
+					/*]]>*/
+				</script>
+				';
+		return implode('', $out);
+
+
+
+		return '
+			<div>
+				<select onchange="setDAMfield(this)">
+					<option value="">---</option>
+					' . $availableContent . '
+				</select>
+			</div>
+			<div>
+				<textarea style="width: 460px;" cols="48" rows="' . $tarows . '" wrap="off" name="temp_' .
+					$PA['itemFormElName'] . '"' . $disabled . '></textarea>
+			</div>
+			<div>
+				<input type="button" name="c1" value="' . $this->tceforms->sL('LLL:EXT:dam_ttnews/locallang_db.xml:tt_address.copy1', true) . '" onclick="copyDAMfield(\'imagecaption\');return false;">
+				<input type="button" name="c3" value="' . $this->tceforms->sL('LLL:EXT:dam_ttnews/locallang_db.xml:tt_address.copy3', true) . '" onclick="copyDAMfield(\'titleText\');return false;">
+			</div>';
+	}
+}
+//<input type="button" name="c2" value="' . $this->tceforms->sL('LLL:EXT:dam_ttnews/locallang_db.xml:tt_address.copy2', true) . '" onclick="copyDAMfield(\'altText\');return false;">
+
+?>

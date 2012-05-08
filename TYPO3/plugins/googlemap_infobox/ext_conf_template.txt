@@ -1,0 +1,2 @@
+# cat=basic/basic/30; type=string; label=Googlemap api key: Key for this Webseite only!
+googleMapKey = AIzaSyByPMRSEQlhGuavSIPY0U3yKrFGTePctaU
