@@ -31,13 +31,13 @@ html {
 /* line 58, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
 body {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.231;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 /* line 64, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
 body, button, input, select, textarea {
-  font-family: sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: #222222;
 }
 
@@ -57,17 +57,17 @@ body, button, input, select, textarea {
 
 /* line 96, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
 a {
-  color: #0000ee;
+  color: #009dd5;
 }
 
 /* line 100, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
 a:visited {
-  color: #551a8b;
+  color: #009dd5;
 }
 
 /* line 104, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
 a:hover {
-  color: #0066ee;
+  color: #e95f47;
 }
 
 /* line 108, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_normalize.scss */
@@ -308,6 +308,85 @@ td {
 /* line 7, ../sass/partials/_page.scss */
 body, select, input, textarea {
   color: #222222;
+}
+
+/* line 3, ../sass/partials/_rte.scss */
+a {
+  text-decoration: underline;
+}
+
+/* line 7, ../sass/partials/_rte.scss */
+a:hover {
+  text-decoration: none;
+}
+
+/* line 12, ../sass/partials/_rte.scss */
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 5px 0;
+}
+
+/* line 17, ../sass/partials/_rte.scss */
+h1 {
+  font-size: 32px;
+}
+
+/* line 17, ../sass/partials/_rte.scss */
+h2 {
+  font-size: 28px;
+}
+
+/* line 17, ../sass/partials/_rte.scss */
+h3 {
+  font-size: 24px;
+}
+
+/* line 17, ../sass/partials/_rte.scss */
+h4 {
+  font-size: 20px;
+}
+
+/* line 17, ../sass/partials/_rte.scss */
+h5 {
+  font-size: 16px;
+}
+
+/* line 27, ../sass/partials/_rte.scss */
+h1.first-header,
+h2.first-header,
+h3.first-header,
+h4.first-header,
+h5.first-header,
+h6.first-header {
+  margin-top: 0px;
+}
+
+/* line 32, ../sass/partials/_rte.scss */
+p.highlightPink {
+  border-left: 10px solid #FF00A0;
+  background: #ffeef9;
+  padding: 8px;
+}
+
+/* line 38, ../sass/partials/_rte.scss */
+p.highlightBlue {
+  border-left: 10px solid #00ccff;
+  background: #edfbff;
+  padding: 8px;
+}
+
+/* line 44, ../sass/partials/_rte.scss */
+.align-right {
+  text-align: right;
+}
+
+/* line 48, ../sass/partials/_rte.scss */
+.align-left {
+  text-align: left;
+}
+
+/* line 52, ../sass/partials/_rte.scss */
+.align-center {
+  text-align: center;
 }
 
 /* line 6, ../../../../../../../../../Applications/compass.app/Contents/Resources/ruby/compass_extensions/heygrady-compass-html5-boilerplate-4cc8815/stylesheets/html5-boilerplate/_helpers.scss */

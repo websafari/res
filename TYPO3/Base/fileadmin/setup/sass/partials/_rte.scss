@@ -1,0 +1,54 @@
+// Partial for all text styling that should also be in the RTE
+
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+// Headlines
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 5px 0;
+}
+
+@for $header from 0 to 5 {
+  h#{$header + 1} {
+    font-size: 32px - ($header * 4px);
+  }
+}
+
+h1.first-header,
+h2.first-header,
+h3.first-header,
+h4.first-header,
+h5.first-header,
+h6.first-header {
+	margin-top: 0px;
+}
+
+// Text styling
+p.highlightPink {
+	border-left:10px solid #FF00A0;
+	background:#ffeef9;
+	padding:8px;
+}
+
+p.highlightBlue {
+	border-left:10px solid #00ccff;
+	background:#edfbff;
+	padding:8px;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.align-left {
+	text-align: left;
+}
+
+.align-center {
+	text-align: center;
+}

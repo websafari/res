@@ -1,0 +1,78 @@
+/* line 3, ../sass/partials/_rte.scss */
+a {
+  text-decoration: underline;
+}
+
+/* line 7, ../sass/partials/_rte.scss */
+a:hover {
+  text-decoration: none;
+}
+
+/* line 12, ../sass/partials/_rte.scss */
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 5px 0;
+}
+
+/* line 17, ../sass/partials/_rte.scss */
+h1 {
+  font-size: 32px;
+}
+
+/* line 17, ../sass/partials/_rte.scss */
+h2 {
+  font-size: 28px;
+}
+
+/* line 17, ../sass/partials/_rte.scss */
+h3 {
+  font-size: 24px;
+}
+
+/* line 17, ../sass/partials/_rte.scss */
+h4 {
+  font-size: 20px;
+}
+
+/* line 17, ../sass/partials/_rte.scss */
+h5 {
+  font-size: 16px;
+}
+
+/* line 27, ../sass/partials/_rte.scss */
+h1.first-header,
+h2.first-header,
+h3.first-header,
+h4.first-header,
+h5.first-header,
+h6.first-header {
+  margin-top: 0px;
+}
+
+/* line 32, ../sass/partials/_rte.scss */
+p.highlightPink {
+  border-left: 10px solid #FF00A0;
+  background: #ffeef9;
+  padding: 8px;
+}
+
+/* line 38, ../sass/partials/_rte.scss */
+p.highlightBlue {
+  border-left: 10px solid #00ccff;
+  background: #edfbff;
+  padding: 8px;
+}
+
+/* line 44, ../sass/partials/_rte.scss */
+.align-right {
+  text-align: right;
+}
+
+/* line 48, ../sass/partials/_rte.scss */
+.align-left {
+  text-align: left;
+}
+
+/* line 52, ../sass/partials/_rte.scss */
+.align-center {
+  text-align: center;
+}
