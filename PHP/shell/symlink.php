@@ -12,5 +12,5 @@ $linkTarget = '';
 
 $return = symlink($linkTarget, $linkName);
 
-if($return) echo "Your link was successfully created";
+if ($return) echo "Your link was successfully created";
 else echo "I'm really sorry, something has gone wrong";

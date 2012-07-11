@@ -16,7 +16,7 @@ $directory = '';
 // Just empty if you want to tar something
 $cmd = 'untar';
 
-if($cmd == 'untar') {
+if ($cmd == 'untar') {
     $shellCmd = 'tar -xzvf ' . $fileName;
 } else $shellCmd = 'tar -cfvz ' . $fileName . ' ' . $directory;
 
